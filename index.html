@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#7b1113">
+<title>Грузия — трэвел-компаньон</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/favicon-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Грузия">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header>
+  <h1>🍷 გამარჯობა, Грузия!</h1>
+  <div class="sub">Оффлайн-разговорник · маршрут · лари · ИИ-помощник</div>
+</header>
+
+<main>
+  <!-- ЧАТ -->
+  <section class="view active" id="v-chat">
+    <div id="chatLog"></div>
+    <div id="chatEmpty" class="card">
+      <h2>🤖 ИИ-помощник по Грузии</h2>
+      <p class="muted">Спроси что угодно: куда съездить, что попробовать, переведи меню или фразу, помоги договориться с таксистом. Отвечаю по-русски.</p>
+      <p class="muted" id="keyHint"></p>
+    </div>
+  </section>
+
+  <!-- ПЕРЕВОДЧИК -->
+  <section class="view" id="v-translate">
+    <div class="card">
+      <h2>🌐 Переводчик</h2>
+      <p class="muted">Напиши фразу по-русски — получишь перевод на английский и грузинский, каждый можно прослушать.</p>
+      <textarea id="trInput" rows="2" placeholder="напр. Где ближайшая заправка?" style="width:100%; resize:none; border:1px solid var(--line); border-radius:10px; padding:11px 12px; font-size:15px; background:var(--paper); color:var(--ink); font-family:inherit"></textarea>
+      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap">
+        <button class="btn" id="trBtn">Перевести</button>
+        <button class="btn ghost sm" id="trClear">Очистить</button>
+      </div>
+      <p class="muted" id="trHint" style="margin:8px 0 0; font-size:12px"></p>
+      <div id="trResult"></div>
+    </div>
+  </section>
+
+  <!-- РАЗГОВОРНИК -->
+  <section class="view" id="v-phrase">
+    <div class="card" style="margin-bottom:8px">
+      <input type="text" id="phraseSearch" placeholder="🔍 поиск фразы…">
+    </div>
+    <div id="phraseList"></div>
+  </section>
+
+  <!-- МАРШРУТ -->
+  <section class="view" id="v-route">
+    <div class="card">
+      <h2>🗺️ Куда съездить</h2>
+      <p class="muted">Гид по стране. Жми на регион, чтобы раскрыть, и на 🧭 у точки — построить маршрут в навигаторе.</p>
+      <div class="seg" id="navSeg">
+        <span class="segl">Строить маршрут в:</span>
+        <button data-nav="google">Google</button>
+        <button data-nav="yandex">Яндекс</button>
+        <button data-nav="mapsme">Maps.me</button>
+      </div>
+      <button class="btn sm" id="geoBtn" style="margin-top:10px">📍 Показать расстояния от меня</button>
+      <p class="muted" id="geoHint" style="margin:6px 0 0; font-size:12px"></p>
+    </div>
+    <div id="routeList"></div>
+  </section>
+
+  <!-- ДЕНЬГИ -->
+  <section class="view" id="v-money">
+    <div class="card">
+      <h2>💸 Конвертер · лари ⇄ рубль</h2>
+      <label>Курс: 1 ₾ (лари) = сколько ₽ (руб)?</label>
+      <input type="number" id="rate" inputmode="decimal" placeholder="напр. 34">
+      <div class="ratestatus"><span class="dot" id="rateDot"></span><span id="rateStatus">—</span></div>
+      <button class="btn sm" id="refreshRate">🔄 Обновить курс из сети</button>
+      <div class="conv" style="margin-top:12px">
+        <input type="number" id="gel" inputmode="decimal" placeholder="0">
+        <span class="cur">₾ GEL</span>
+      </div>
+      <button class="swap" id="swap" title="поменять">⇅</button>
+      <div class="conv">
+        <input type="number" id="rub" inputmode="decimal" placeholder="0">
+        <span class="cur">₽ RUB</span>
+      </div>
+      <p class="warn">Онлайн — тянем реальный курс и кешируем. Оффлайн — считаем по последнему сохранённому. Вбитый вручную курс всегда главнее автомата (обменник на границе → впиши как есть).</p>
+    </div>
+    <div class="card">
+      <h2>ℹ️ Практика</h2>
+      <div id="tips"></div>
+    </div>
+  </section>
+
+  <!-- КЛЮЧ -->
+  <section class="view" id="v-settings">
+    <div class="card">
+      <h2>⚙️ Ключ DeepSeek</h2>
+      <p class="muted">Получи ключ на <a href="https://platform.deepseek.com" target="_blank" rel="noopener">platform.deepseek.com</a> → API keys, пополни баланс на пару $. Ключ хранится только на этом телефоне.</p>
+      <label>API-ключ (sk-…)</label>
+      <input type="password" id="apiKey" placeholder="sk-...">
+      <label>Модель</label>
+      <input type="text" id="model" value="deepseek-chat">
+      <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap">
+        <button class="btn" id="saveKey">Сохранить</button>
+        <button class="btn ghost" id="clearChat">Очистить чат</button>
+      </div>
+      <p class="warn">Совет: на platform.deepseek.com поставь лимит расхода, чтобы точно не улететь в трубу.</p>
+    </div>
+    <div class="card">
+      <h2>📊 Расход трафика</h2>
+      <div id="trafficBox"></div>
+      <button class="btn ghost sm" id="resetTraffic" style="margin-top:10px">Сбросить счётчик</button>
+    </div>
+    <div class="card">
+      <h2>📲 Установить как приложение</h2>
+      <p class="muted"><b>iPhone (Safari):</b> кнопка «Поделиться» → «На экран „Домой“».<br><b>Android (Chrome):</b> меню ⋮ → «Установить приложение» / «Добавить на главный экран».<br>После этого работает с иконки и оффлайн.</p>
+    </div>
+    <p class="ver" id="verLine"></p>
+  </section>
+</main>
+
+<nav>
+  <button data-v="chat" class="active"><span class="ic">💬</span>Чат</button>
+  <button data-v="translate"><span class="ic">🌐</span>Перевод</button>
+  <button data-v="phrase"><span class="ic">🗣️</span>Фразы</button>
+  <button data-v="route"><span class="ic">🗺️</span>Маршрут</button>
+  <button data-v="money"><span class="ic">💸</span>Деньги</button>
+  <button data-v="settings"><span class="ic">⚙️</span>Ключ</button>
+</nav>
+
+<div class="chatbar" id="chatbar">
+  <div class="chips" id="chips"></div>
+  <div class="row">
+    <textarea id="chatInput" rows="1" placeholder="Спроси про Грузию…"></textarea>
+    <button id="sendBtn" title="Отправить">➤</button>
+  </div>
+</div>
+
+<!-- Скрипты подключаются по порядку зависимостей (без сборщика). См. README.md -->
+<script src="js/data.js"></script>      <!-- контент: фразы, маршрут, советы, промпт -->
+<script src="js/util.js"></script>      <!-- общие хелперы: esc, байты, время, дистанция, speak -->
+<script src="js/traffic.js"></script>   <!-- учёт трафика -->
+<script src="js/nav.js"></script>       <!-- переключение вкладок -->
+<script src="js/phrases.js"></script>   <!-- разговорник + избранное -->
+<script src="js/route.js"></script>     <!-- маршрут: навигаторы + расстояния (OSRM) -->
+<script src="js/money.js"></script>     <!-- конвертер + курс -->
+<script src="js/chat.js"></script>      <!-- ИИ-чат -->
+<script src="js/translate.js"></script> <!-- переводчик -->
+<script src="js/settings.js"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
+
+<!-- Регистрация service worker (оффлайн-кэш). См. sw.js -->
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
