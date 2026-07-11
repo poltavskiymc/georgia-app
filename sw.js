@@ -1,8 +1,10 @@
 // Service worker — оффлайн-работа приложения.
-// Вся своя статика (html/css/js) отдаётся network-first: при наличии сети всегда свежая
-// (правки подхватываются сразу), без сети — из кеша. Внешние API не трогаем.
-// Бампни версию при изменении файлов.
-const CACHE = 'georgia-v7';
+// Стратегия stale-while-revalidate для своей статики: отдаём из кеша МГНОВЕННО
+// (быстро и работает без сети), а свежую версию тихо подтягиваем в фоне для след. загрузки.
+// Обновления кода прилетают через смену версии кеша ниже + skipWaiting/claim, а страница
+// сама перезагрузится (см. регистрацию в index.html). Внешние API не трогаем.
+// !!! Бампни CACHE при изменении любого файла из ASSETS.
+const CACHE = 'georgia-v8';
 const ASSETS = [
   './',
   './index.html',
@@ -38,15 +40,18 @@ self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
-  // Внешние API (DeepSeek, курс, OSRM) — всегда из сети, не кешируем.
+  // Внешние API (DeepSeek, курс, OSRM) — всегда напрямую из сети, не кешируем.
   if (url.origin !== self.location.origin) return;
 
-  // network-first для всей своей статики.
+  // stale-while-revalidate: кеш сразу, обновление кеша — в фоне.
   e.respondWith(
-    fetch(req).then(res => {
-      const copy = res.clone();
-      caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
-      return res;
-    }).catch(() => caches.match(req).then(r => r || (req.mode === 'navigate' ? caches.match('./index.html') : undefined)))
+    caches.match(req).then(cached => {
+      const network = fetch(req).then(res => {
+        const copy = res.clone();
+        caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+        return res;
+      }).catch(() => cached || (req.mode === 'navigate' ? caches.match('./index.html') : undefined));
+      return cached || network;   // есть в кеше — мгновенно; нет — ждём сеть
+    })
   );
 });
