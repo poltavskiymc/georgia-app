@@ -154,10 +154,20 @@
 <script src="js/translate.js"></script> <!-- переводчик -->
 <script src="js/settings.js"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
 
-<!-- Регистрация service worker (оффлайн-кэш). См. sw.js -->
+<!-- Регистрация service worker (оффлайн-кэш) + авто-обновление. См. sw.js -->
 <script>
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+  let refreshing=false;
+  // когда новый SW взял управление — перезагружаемся, чтобы подтянуть свежие файлы
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(refreshing) return; refreshing=true; location.reload();
+  });
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js').then(reg=>{
+      reg.update();
+      setInterval(()=>reg.update(), 60000); // проверять обновление раз в минуту
+    }).catch(()=>{});
+  });
 }
 </script>
 </body>
