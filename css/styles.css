@@ -76,6 +76,7 @@ input[type=text],input[type=password],input[type=number]{width:100%; padding:11p
 .btn{display:inline-block; border:0; background:var(--wine); color:#fff; padding:11px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer}
 .btn.ghost{background:transparent; color:var(--wine2); border:1px solid var(--line)}
 .btn.sm{padding:8px 12px; font-size:13px}
+.btn.rec{background:var(--wine); color:#fff; border-color:var(--wine)}
 .conv{display:flex; gap:8px; align-items:center; margin:8px 0}
 .conv input{flex:1}
 .conv .cur{font-weight:700; color:var(--muted); width:44px; text-align:center}

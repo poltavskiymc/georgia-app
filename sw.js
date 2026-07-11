@@ -1,7 +1,7 @@
 // Service worker — оффлайн-работа приложения.
 // HTML отдаём network-first (свежие правки подхватываются сразу), остальное — cache-first.
 // Бампни версию при изменении статики.
-const CACHE = 'georgia-v5';
+const CACHE = 'georgia-v6';
 const ASSETS = [
   './',
   './index.html',

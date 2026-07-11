@@ -82,18 +82,30 @@ document.querySelectorAll('#navSeg button').forEach(b=>b.addEventListener('click
 setNav(navProv);
 
 const geoBtn=document.getElementById('geoBtn'), geoHint=document.getElementById('geoHint');
-geoBtn.addEventListener('click',()=>{
+const GEO_LABEL='📍 Показать расстояния от меня';
+function getPos(opts){ return new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,opts)); }
+geoBtn.addEventListener('click', async ()=>{
   if(!navigator.geolocation){ geoHint.textContent='Геолокация не поддерживается этим браузером.'; return; }
-  const old=geoBtn.textContent; geoBtn.disabled=true; geoBtn.textContent='⏳ определяю…';
-  navigator.geolocation.getCurrentPosition(pos=>{
+  geoBtn.disabled=true; geoBtn.textContent='⏳ определяю…'; geoHint.textContent='';
+  try{
+    let pos;
+    try{
+      // быстрая попытка: можно взять недавнюю позицию из кеша
+      pos = await getPos({enableHighAccuracy:false, timeout:8000, maximumAge:600000});
+    }catch(e1){
+      if(e1.code===1) throw e1;                 // отказано — ретрай бессмысленен
+      geoBtn.textContent='⏳ уточняю по GPS…';
+      pos = await getPos({enableHighAccuracy:true, timeout:20000, maximumAge:0});
+    }
     userPos=[pos.coords.latitude, pos.coords.longitude];
     geoBtn.disabled=false; geoBtn.textContent='📍 Обновить расстояния';
     geoHint.textContent='Считаю расстояния…';
     applyDist();
-  }, err=>{
-    geoBtn.disabled=false; geoBtn.textContent=old;
-    geoHint.textContent = err.code===1
-      ? '⚠️ Геолокация недоступна. Если сайт открыт по http (не https/localhost) — браузер её блокирует. Иначе разреши доступ к геопозиции для сайта.'
-      : 'Не удалось определить местоположение — попробуй ещё раз, лучше на улице.';
-  }, {enableHighAccuracy:false, timeout:10000, maximumAge:60000});
+  }catch(err){
+    geoBtn.disabled=false; geoBtn.textContent=GEO_LABEL;
+    if(err.code===1)      geoHint.textContent='⚠️ Доступ к геолокации запрещён. Нажми на 🔒 слева от адреса → «Разрешения» → включи «Геоданные» и попробуй снова.';
+    else if(err.code===2) geoHint.textContent='⚠️ Местоположение недоступно. Включи геолокацию (GPS) в шторке телефона и проверь, что она разрешена Chrome в настройках Android.';
+    else if(err.code===3) geoHint.textContent='⏳ Не успел определить за отведённое время. Попробуй ещё раз — лучше у окна или на улице.';
+    else                  geoHint.textContent='Не удалось определить местоположение: '+(err.message||('код '+err.code));
+  }
 });
