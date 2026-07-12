@@ -10,3 +10,5 @@ function show(v){
   window.scrollTo(0,0);
 }
 navBtns.forEach(b=>b.addEventListener('click',()=>show(b.dataset.v)));
+// настройки открываются шестерёнкой в шапке (не вкладкой)
+document.getElementById('settingsBtn').addEventListener('click',()=>show('settings'));

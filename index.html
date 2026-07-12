@@ -15,8 +15,11 @@
 </head>
 <body>
 <header>
-  <h1>🍷 გამარჯობა, Грузия! 🥟</h1>
-  <div class="sub">Разговорник · маршрут · лари · ИИ-помощник</div>
+  <div class="htext">
+    <h1>🍷 გამარჯობა, Грузия! 🥟</h1>
+    <div class="sub">Разговорник · маршрут · лари · ИИ-помощник</div>
+  </div>
+  <button id="settingsBtn" class="hgear" title="Настройки">⚙️</button>
 </header>
 
 <main>
@@ -102,7 +105,16 @@
     </div>
   </section>
 
-  <!-- КЛЮЧ -->
+  <!-- ЕДА -->
+  <section class="view" id="v-food">
+    <div class="card">
+      <h2>🍽️ Грузинская кухня</h2>
+      <p class="muted">Что обязательно попробовать. Жми на блюдо — фото, состав, вкус, история и факт.</p>
+    </div>
+    <div id="foodList"></div>
+  </section>
+
+  <!-- НАСТРОЙКИ (открывается шестерёнкой в шапке) -->
   <section class="view" id="v-settings">
     <div class="card">
       <h2>⚙️ Ключ DeepSeek</h2>
@@ -147,7 +159,7 @@
   <button data-v="phrase"><span class="ic">🗣️</span>Фразы</button>
   <button data-v="route"><span class="ic">🗺️</span>Маршрут</button>
   <button data-v="money"><span class="ic">💸</span>Деньги</button>
-  <button data-v="settings"><span class="ic">⚙️</span>Ключ</button>
+  <button data-v="food"><span class="ic">🍽️</span>Еда</button>
 </nav>
 
 <div class="chatbar" id="chatbar">
@@ -166,6 +178,7 @@
 <script src="js/phrases.js"></script>   <!-- разговорник + избранное -->
 <script src="js/route.js"></script>     <!-- маршрут: навигаторы + расстояния (OSRM) -->
 <script src="js/wiki.js"></script>      <!-- энциклопедия по регионам (Википедия) -->
+<script src="js/food.js"></script>      <!-- вкладка «Еда»: блюда с фото и историей -->
 <script src="js/money.js"></script>     <!-- конвертер + курс -->
 <script src="js/chat.js"></script>      <!-- ИИ-чат -->
 <script src="js/translate.js"></script> <!-- переводчик -->

@@ -15,11 +15,15 @@ body{
 }
 header{
   background:linear-gradient(135deg,var(--wine),var(--wine2));
-  color:#fff; padding:calc(4px + env(safe-area-inset-top)) 14px 4px;
+  color:#fff; padding:calc(4px + env(safe-area-inset-top)) 12px 4px;
   position:sticky; top:0; z-index:20;
+  display:flex; align-items:center; gap:10px;
 }
+header .htext{flex:1; min-width:0}
 header h1{margin:0; font-size:14.5px; font-weight:700; display:flex; align-items:center; gap:6px}
 header .sub{opacity:.75; font-size:10px; margin-top:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+header .hgear{flex-shrink:0; border:0; background:rgba(255,255,255,.15); color:#fff; width:36px; height:36px; border-radius:50%; font-size:18px; cursor:pointer; line-height:1}
+header .hgear:active{transform:scale(.92)}
 main{max-width:640px; margin:0 auto; padding:14px}
 .view{display:none; animation:fade .18s ease}
 .view.active{display:block}
@@ -130,6 +134,20 @@ details .body b{color:var(--wine2)}
 .modal-body p{margin:0 0 10px; font-size:14.5px; line-height:1.6}
 .wiki-img{width:100%; max-height:240px; object-fit:cover; border-radius:12px; margin-bottom:12px}
 .wiki-more{display:inline-block; margin-top:6px; font-weight:600; text-decoration:none}
+.dish{background:var(--card); border:1px solid var(--line); border-radius:14px; margin-bottom:10px; padding:0 14px; box-shadow:var(--shadow)}
+.dish summary{display:flex; align-items:center; gap:9px; padding:13px 0}
+.dish summary::before{content:none}
+.dish .demoji{font-size:22px; line-height:1; flex-shrink:0}
+.dish .dname{font-weight:700; font-size:15px}
+.dish .dtr{font-size:12.5px; color:var(--muted); font-style:italic; margin-left:auto; text-align:right}
+.dish .dbody{padding:2px 0 14px}
+.dphoto{width:100%; height:190px; border-radius:12px; margin-bottom:12px; background:linear-gradient(135deg,rgba(123,17,19,.12),rgba(201,162,39,.15)); display:flex; align-items:center; justify-content:center; font-size:64px; overflow:hidden}
+.dphoto.has-img{background:none}
+.dimg{width:100%; height:100%; object-fit:cover; display:block}
+.dish .ddesc{margin:0 0 10px; font-size:14.5px; line-height:1.55}
+.dish .dfield{font-size:13.5px; line-height:1.55; margin-top:7px}
+.dish .dfield b{color:var(--wine2)}
+@media (prefers-color-scheme:dark){.dish .dfield b{color:var(--gold)}}
 .trrow{display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px solid var(--line)}
 .trrow:last-child{border-bottom:0}
 .trrow .txt{flex:1; min-width:0}
