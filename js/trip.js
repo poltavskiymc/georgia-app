@@ -11,7 +11,7 @@
    Грузится ПОСЛЕ plan.js (нужны plan/savePlan/renderPlan/planApplyRemote) и ПОСЛЕ nav.js (show).
    Зависит ещё от util.js (byteLen, fmtTs) и traffic.js (addTraffic). */
 
-const TRIP_API  = '';                                     // адрес сервера, напр. https://georgia-trip.deno.dev — пусто = синк выключен
+const TRIP_API  = 'https://georgia-trip-5xq93cphsve6.poltavskiymc.deno.net';   // сервер (server/main.ts); пусто = синк выключен
 const TRIP_ABC  = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';     // без 0/O/1/I — их путают, когда код диктуют голосом
 const TRIP_RE   = /^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$/;
 const TRIP_POLL = 45000;                                  // как часто спрашивать «на сервере что-то поменялось?»

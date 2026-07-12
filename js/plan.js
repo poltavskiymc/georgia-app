@@ -91,13 +91,25 @@ function planRate(item, rating){
   savePlan(); renderPlan(); planChanged();
 }
 
-/* Пришло объединённое состояние с сервера (trip.js) — просто заменяем им своё:
-   мерджем занимался сервер, наши правки в ответе уже учтены. */
+/* Пришло объединённое состояние с сервера (trip.js). Заменять им своё «в лоб» НЕЛЬЗЯ:
+   пока запрос летел (а это сотни миллисекунд), человек мог успеть нажать галочку — сервер
+   про неё ещё не знает, и его ответ бы её затёр, тап пропал бы молча. Поэтому мержим ответ
+   со своим текущим состоянием по тому же правилу, что и сервер: побеждает более свежий ts.
+   Правка, сделанная во время запроса, свежее — она и выживает, а trip.js её потом допошлёт. */
 function planApplyRemote(data){
-  if(Array.isArray(data.see))  plan.see  = data.see;
-  if(Array.isArray(data.eat))  plan.eat  = data.eat;
-  if(Array.isArray(data.pack)) plan.pack = data.pack;
+  for(const kind of ['see','eat','pack']){
+    if(Array.isArray(data[kind])) plan[kind] = mergeById(plan[kind], data[kind]);
+  }
   savePlan(); renderPlan(); planChanged();
+}
+function mergeById(mine, theirs){
+  const byId = new Map();
+  for(const it of [...mine, ...theirs]){
+    if(!it || typeof it.id!=='string') continue;
+    const prev = byId.get(it.id);
+    if(!prev || (it.ts||0) > (prev.ts||0)) byId.set(it.id, it);
+  }
+  return [...byId.values()];
 }
 
 // разметка виджета оценки: 5 хинкалей, залитые до текущей оценки
