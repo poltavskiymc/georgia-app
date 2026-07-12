@@ -135,6 +135,12 @@
       <button class="btn ghost sm" id="resetTraffic" style="margin-top:10px">Сбросить счётчик</button>
     </div>
     <div class="card">
+      <h2>🔄 Обновление</h2>
+      <p class="muted">Приложение обновляется само, но если кажется, что висит старая версия — нажми. Сбросим оффлайн-кэш и загрузим свежие файлы (нужен интернет).</p>
+      <button class="btn" id="updateApp">Обновить приложение</button>
+      <p class="muted" id="updHint" style="margin:8px 0 0; font-size:12px"></p>
+    </div>
+    <div class="card">
       <h2>📲 Установить как приложение</h2>
       <p class="muted"><b>iPhone (Safari):</b> кнопка «Поделиться» → «На экран „Домой“».<br><b>Android (Chrome):</b> меню ⋮ → «Установить приложение» / «Добавить на главный экран».<br>После этого работает с иконки и оффлайн.</p>
     </div>
@@ -152,9 +158,6 @@
     <div class="modal-body" id="wikiBody"></div>
   </div>
 </div>
-
-<!-- ВРЕМЕННО: диагностика вьюпорта на iOS (убрать после починки навбара) -->
-<div id="diag"></div>
 
 <nav>
   <button data-v="chat" class="active"><span class="ic">💬</span>Чат</button>
@@ -186,7 +189,6 @@
 <script src="js/chat.js"></script>      <!-- ИИ-чат -->
 <script src="js/translate.js"></script> <!-- переводчик -->
 <script src="js/settings.js"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
-<script src="js/diag.js"></script>      <!-- ВРЕМЕННО: диагностика вьюпорта на iOS -->
 
 <!-- Регистрация service worker (оффлайн-кэш) + авто-обновление. См. sw.js -->
 <script>
