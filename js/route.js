@@ -49,7 +49,7 @@ async function applyDist(){
 
 (function renderRoute(){
   const box=document.getElementById('routeList'); const card=document.createElement('div'); card.className='card';
-  ROUTE.forEach(([t,d,center,pois])=>{
+  ROUTE.forEach(([t,d,center,pois,fact])=>{
     const d1=document.createElement('details');
     const cityName=t.replace(/^\S+\s/,'').split(' (')[0].split(' / ')[0];
     const rows=(pois||[]).map(([ic,name,coord,note])=>
@@ -62,6 +62,7 @@ async function applyDist(){
     d1.innerHTML=
       `<summary>${t}</summary>`+
       `<div class="body">${d}`+
+      (fact?`<div class="fact">💡 <b>А знаешь?</b> ${fact}</div>`:'')+
       (rows?`<div style="margin-top:6px">${rows}</div>`:'')+
       `<div class="maplinks">`+
         `<a class="navpt" data-c="${center}" data-n="${encodeURIComponent(cityName)}" target="_blank" rel="noopener">📍 На карте</a>`+

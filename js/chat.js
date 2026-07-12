@@ -23,7 +23,8 @@ function renderChat(){
 const CHIPS=["Что попробовать из еды?","Составь план на 5 дней","Переведи: сколько стоит проехать до Казбеги?","Какое вино взять с собой?","Романтичное место на вечер"];
 (function(){ const c=document.getElementById('chips'); CHIPS.forEach(t=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=t; b.onclick=()=>{inputEl.value=t; send();}; c.appendChild(b); }); })();
 
-inputEl.addEventListener('input',()=>{ inputEl.style.height='auto'; inputEl.style.height=Math.min(inputEl.scrollHeight,120)+'px'; });
+function growInput(){ inputEl.style.height='auto'; inputEl.style.height=Math.min(inputEl.scrollHeight,160)+'px'; }
+inputEl.addEventListener('input',growInput);
 inputEl.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); } });
 sendBtn.addEventListener('click',send);
 

@@ -2,7 +2,7 @@
    Загружается ПОСЛЕДНИМ: использует refreshKeyHint/renderChat/history из chat.js,
    renderTraffic/traffic из traffic.js, show из nav.js. */
 
-const APP_VERSION = '2026-07-12 · сборка 8';
+const APP_VERSION = '2026-07-12 · сборка 9';
 
 const apiKeyEl=document.getElementById('apiKey'), modelEl=document.getElementById('model');
 apiKeyEl.value = localStorage.getItem('ds_key')||'';

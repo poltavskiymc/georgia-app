@@ -46,23 +46,37 @@ trBtn.addEventListener('click',translate);
 trInput.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); translate(); } });
 document.getElementById('trClear').addEventListener('click',()=>{ trInput.value=''; trResult.innerHTML=''; trHint.textContent=''; });
 
-/* ---- голосовой ввод ---- */
+/* ---- голосовой ввод с понятным индикатором записи ---- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let rec = null;
-function listen(lang, btn){
+const micRu=document.getElementById('micRu'), micKa=document.getElementById('micKa');
+const trRec=document.getElementById('trRec'), trRecTxt=document.getElementById('trRecTxt');
+let rec=null;
+function recBar(show, txt){ trRec.hidden=!show; if(txt!=null) trRecTxt.textContent=txt; }
+function micsEnabled(on){ micRu.disabled=!on; micKa.disabled=!on; }
+function listen(lang){
   if(!SR){ trHint.textContent='Голосовой ввод не поддерживается этим браузером (нужен Chrome).'; return; }
-  if(rec){ rec.stop(); return; }                         // повторный тап — остановить
-  rec = new SR(); rec.lang=lang; rec.interimResults=false; rec.maxAlternatives=1;
-  const old=btn.textContent; btn.textContent='🔴 слушаю…'; btn.classList.add('rec');
-  trHint.textContent = lang==='ka-GE' ? 'Говори по-грузински…' : 'Говори по-русски…';
-  rec.onresult=e=>{ trInput.value=e.results[0][0].transcript; };
+  if(rec){ rec.stop(); return; }                          // уже идёт — остановить
+  rec=new SR(); rec.lang=lang; rec.interimResults=true; rec.maxAlternatives=1; rec.continuous=false;
+  trHint.textContent=''; micsEnabled(false);
+  recBar(true, '⏳ включаю микрофон…');
+  rec.onstart=()=>recBar(true, lang==='ka-GE' ? '🔴 Говорите по-грузински…' : '🔴 Говорите по-русски…');
+  rec.onresult=e=>{
+    let t=''; for(const r of e.results) t+=r[0].transcript;
+    t=t.trim(); trInput.value=t;
+    const done=e.results[e.results.length-1].isFinal;
+    recBar(true, done ? '✓ Распознал: «'+t+'»' : '👂 '+t);
+  };
   rec.onerror=e=>{
     trHint.textContent = e.error==='not-allowed'
-      ? '⚠️ Нет доступа к микрофону — разреши его для сайта.'
-      : (e.error==='no-speech' ? 'Не расслышал — попробуй ещё раз.' : 'Ошибка распознавания: '+e.error);
+      ? '⚠️ Нет доступа к микрофону — разреши его для сайта (🔒 у адреса → Разрешения → Микрофон).'
+      : (e.error==='no-speech' ? 'Не расслышал — попробуй ещё раз, ближе к микрофону.' : 'Ошибка распознавания: '+e.error);
   };
-  rec.onend=()=>{ btn.textContent=old; btn.classList.remove('rec'); rec=null; if(trInput.value.trim()) translate(); };
-  try{ rec.start(); }catch(_){ rec=null; btn.textContent=old; btn.classList.remove('rec'); }
+  rec.onend=()=>{
+    recBar(false); micsEnabled(true); rec=null;
+    if(trInput.value.trim()) translate();                 // распознанное сразу переводим
+  };
+  try{ rec.start(); }catch(_){ recBar(false); micsEnabled(true); rec=null; }
 }
-document.getElementById('micRu').addEventListener('click',function(){ listen('ru-RU', this); });
-document.getElementById('micKa').addEventListener('click',function(){ listen('ka-GE', this); });
+micRu.addEventListener('click',()=>listen('ru-RU'));
+micKa.addEventListener('click',()=>listen('ka-GE'));
+document.getElementById('trStop').addEventListener('click',()=>{ if(rec) rec.stop(); });
