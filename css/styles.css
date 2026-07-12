@@ -90,7 +90,7 @@ nav button.active{color:var(--wine2)}
    в щель между плашкой и навбаром просвечивал проскролленный текст чата. */
 .chatbar{position:fixed; left:0; right:0; bottom:var(--nav-h,60px); padding:8px; background:var(--paper); border-top:1px solid var(--line)}
 .chatbar .row{max-width:640px; margin:0 auto; display:flex; gap:8px; align-items:flex-end}
-.chatbar textarea{flex:1; resize:none; border:1px solid var(--line); border-radius:18px; padding:10px 14px; font-size:15px; line-height:1.35; background:var(--card); color:var(--ink); min-height:44px; max-height:160px; overflow-y:auto; font-family:inherit}
+.chatbar textarea{flex:1; resize:none; border:1px solid var(--line); border-radius:18px; padding:10px 14px; font-size:16px; line-height:1.35; background:var(--card); color:var(--ink); min-height:44px; max-height:160px; overflow-y:auto; font-family:inherit}
 .chatbar .row button{border:0; background:var(--wine); color:#fff; width:44px; height:44px; border-radius:50%; font-size:18px; flex-shrink:0; cursor:pointer}
 .chatbar .row button:disabled{opacity:.5}
 .chips{display:flex; gap:6px; overflow-x:auto; padding:4px 0 8px; -webkit-overflow-scrolling:touch; scrollbar-width:none}
@@ -98,7 +98,10 @@ nav button.active{color:var(--wine2)}
 .chip{flex:0 0 auto; white-space:nowrap; border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:16px; padding:6px 12px; font-size:12.5px; cursor:pointer}
 
 label{display:block; font-size:12.5px; font-weight:600; margin:10px 0 4px; color:var(--muted)}
-input[type=text],input[type=password],input[type=number]{width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:10px; font-size:15px; background:var(--paper); color:var(--ink)}
+/* ВАЖНО: у всех полей ввода font-size >= 16px. iOS Safari при фокусе поля с меньшим шрифтом
+   зумит всю страницу (до эффективных 16px), а в standalone-PWA этот зум не откатывается —
+   приложение навсегда становится «шире экрана», пока не сведёшь пальцами вручную. */
+input[type=text],input[type=password],input[type=number]{width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:10px; font-size:16px; background:var(--paper); color:var(--ink)}
 .btn{display:inline-block; border:0; background:var(--wine); color:#fff; padding:11px 16px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer}
 .btn.ghost{background:transparent; color:var(--wine2); border:1px solid var(--line)}
 .btn.sm{padding:8px 12px; font-size:13px}
