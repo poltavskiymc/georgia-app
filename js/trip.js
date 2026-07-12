@@ -67,7 +67,7 @@ async function tripSync(){
     const data = await tripFetch('/t/'+trip.id, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ see:plan.see, eat:plan.eat, pack:plan.pack }),
+      body: JSON.stringify({ see:plan.see, eat:plan.eat, my:plan.my, pack:plan.pack }),
     });
     tripApplying=true;
     try{ planApplyRemote(data); } finally{ tripApplying=false; }
@@ -242,7 +242,7 @@ async function tripShare(){
 
 async function askJoin(id){
   if(typeof show==='function') show('settings');
-  const mine = planLive('see').length + planLive('eat').length + packCount();
+  const mine = planLive('see').length + planLive('eat').length + planLive('my').length + packCount();
   const warn = mine ? `\n\nТвои ${mine} отмеченных пункта не пропадут — они добавятся в общий план.` : '';
   if(!confirm(`Присоединиться к поездке ${id}?${warn}`)) return;
   tripHint('');

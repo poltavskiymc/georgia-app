@@ -241,6 +241,10 @@ details .body b{color:var(--wine2)}
 @media (prefers-color-scheme:dark){.chk .go{color:var(--gold)}}
 .chk .del{flex-shrink:0; border:0; background:none; color:var(--muted); font-size:15px; padding:4px 2px; cursor:pointer; line-height:1}
 .chk .del:active{transform:scale(.85)}
+/* поле «добавить свой пункт» — в группе «Своё» и в «Своём чек-листе» */
+.addrow{display:flex; gap:8px; margin:10px 0 2px}
+.addrow input{flex:1}
+.addrow .btn{flex-shrink:0; padding:8px 14px; font-size:16px; line-height:1}
 .empty{margin:6px 0 0; font-style:italic}
 
 .trrow{display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px solid var(--line)}

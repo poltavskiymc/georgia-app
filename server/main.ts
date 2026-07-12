@@ -1,7 +1,7 @@
 /* Сервер синхронизации плана поездки. Deno Deploy + Deno KV.
-   Хранит по коду поездки один JSON: {rev, see, eat, pack, upd}.
+   Хранит по коду поездки один JSON: {rev, see, eat, my, pack, upd}.
    Никаких аккаунтов и паролей: кто знает код — тот в поездке. Внутри только чек-лист
-   (места, блюда, сборы) — ни ключей, ни чатов, ни геопозиции, они с телефона не уезжают.
+   (места, блюда, сборы, свои пункты) — ни ключей, ни чатов, ни геопозиции, они с телефона не уезжают.
 
    Почему Deno, а не Cloudflare Workers: *.workers.dev не открывается из России (TCP режется),
    а *.deno.dev открывается. Логика та же, отличается только рантайм.
@@ -19,9 +19,9 @@
    одновременно, второй не затрёт первого, а перечитает и смержит заново. */
 
 type Item = { id: string; ts: number; del?: boolean; [k: string]: unknown };
-type Trip = { rev: number; see: Item[]; eat: Item[]; pack: Item[]; upd: number };
+type Trip = { rev: number; see: Item[]; eat: Item[]; my: Item[]; pack: Item[]; upd: number };
 
-const KINDS = ['see', 'eat', 'pack'] as const;
+const KINDS = ['see', 'eat', 'my', 'pack'] as const;   // my — «свой чек-лист», пункты, вписанные руками
 const ID_RE = /^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$/;   // без 0/O/1/I — их путают, когда код диктуют голосом
 const MAX_BODY = 256 * 1024;
 const MAX_ITEMS = 500;                                   // на каждый список: столько мест и блюд руками не набрать
@@ -37,7 +37,7 @@ const json = (obj: unknown, status = 200) =>
   new Response(JSON.stringify(obj), { status, headers: { ...CORS, 'Content-Type': 'application/json' } });
 
 const kv = await Deno.openKv();
-const empty = (): Trip => ({ rev: 0, see: [], eat: [], pack: [], upd: 0 });
+const empty = (): Trip => ({ rev: 0, see: [], eat: [], my: [], pack: [], upd: 0 });
 
 // Мусор и переростков молча выкидываем — с телефона такого прийти не должно.
 function clean(list: unknown): Item[] {
@@ -48,9 +48,9 @@ function clean(list: unknown): Item[] {
     .map((it) => ({ ...it, ts: Number(it.ts) || 0 }));
 }
 
-function merge(a: Partial<Trip>, b: Partial<Trip>): Pick<Trip, 'see' | 'eat' | 'pack'> {
+function merge(a: Partial<Trip>, b: Partial<Trip>): Pick<Trip, 'see' | 'eat' | 'my' | 'pack'> {
   const now = Date.now();
-  const out = { see: [], eat: [], pack: [] } as Pick<Trip, 'see' | 'eat' | 'pack'>;
+  const out = { see: [], eat: [], my: [], pack: [] } as Pick<Trip, 'see' | 'eat' | 'my' | 'pack'>;
   for (const kind of KINDS) {
     const byId = new Map<string, Item>();
     for (const it of [...clean(a[kind]), ...clean(b[kind])]) {

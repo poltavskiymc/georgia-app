@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Грузия">
-<link rel="stylesheet" href="css/styles.css?v=25">
+<link rel="stylesheet" href="css/styles.css?v=26">
 </head>
 <body>
 <header>
@@ -133,6 +133,16 @@
       <h2>🍽️ Хочу попробовать<span class="cnt" id="eatCnt"></span></h2>
       <div id="eatList"></div>
       <p class="muted" id="eatTop" hidden></p>
+    </div>
+
+    <div class="card">
+      <h2>✍️ Свой чек-лист<span class="cnt" id="myCnt"></span></h2>
+      <p class="muted">Всё, что не влезло в списки выше: дела, покупки, «не забыть».</p>
+      <form class="addrow" id="myAdd">
+        <input type="text" maxlength="80" autocomplete="off" placeholder="Например: купить симку">
+        <button class="btn sm" type="submit" title="Добавить">＋</button>
+      </form>
+      <div id="myList"></div>
     </div>
   </section>
 
@@ -256,20 +266,20 @@
 </div>
 
 <!-- Скрипты подключаются по порядку зависимостей (без сборщика). См. README.md -->
-<script src="js/data.js?v=25"></script>      <!-- контент: фразы, маршрут, советы, промпт -->
-<script src="js/util.js?v=25"></script>      <!-- общие хелперы: esc, байты, время, дистанция, speak -->
-<script src="js/traffic.js?v=25"></script>   <!-- учёт трафика -->
-<script src="js/nav.js?v=25"></script>       <!-- переключение вкладок -->
-<script src="js/phrases.js?v=25"></script>   <!-- разговорник + избранное -->
-<script src="js/plan.js?v=25"></script>      <!-- вкладка «План»: сборы + что посмотреть/попробовать -->
-<script src="js/trip.js?v=25"></script>      <!-- совместная поездка: синк «Плана» между телефонами по коду -->
-<script src="js/route.js?v=25"></script>     <!-- «Гид» → Места: навигаторы + расстояния (OSRM) -->
-<script src="js/wiki.js?v=25"></script>      <!-- энциклопедия по регионам (Википедия) -->
-<script src="js/food.js?v=25"></script>      <!-- «Гид» → Еда: блюда с фото и историей -->
-<script src="js/money.js?v=25"></script>     <!-- конвертер + курс -->
-<script src="js/chat.js?v=25"></script>      <!-- ИИ-чат -->
-<script src="js/translate.js?v=25"></script> <!-- переводчик -->
-<script src="js/settings.js?v=25"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
+<script src="js/data.js?v=26"></script>      <!-- контент: фразы, маршрут, советы, промпт -->
+<script src="js/util.js?v=26"></script>      <!-- общие хелперы: esc, байты, время, дистанция, speak -->
+<script src="js/traffic.js?v=26"></script>   <!-- учёт трафика -->
+<script src="js/nav.js?v=26"></script>       <!-- переключение вкладок -->
+<script src="js/phrases.js?v=26"></script>   <!-- разговорник + избранное -->
+<script src="js/plan.js?v=26"></script>      <!-- вкладка «План»: сборы + что посмотреть/попробовать -->
+<script src="js/trip.js?v=26"></script>      <!-- совместная поездка: синк «Плана» между телефонами по коду -->
+<script src="js/route.js?v=26"></script>     <!-- «Гид» → Места: навигаторы + расстояния (OSRM) -->
+<script src="js/wiki.js?v=26"></script>      <!-- энциклопедия по регионам (Википедия) -->
+<script src="js/food.js?v=26"></script>      <!-- «Гид» → Еда: блюда с фото и историей -->
+<script src="js/money.js?v=26"></script>     <!-- конвертер + курс -->
+<script src="js/chat.js?v=26"></script>      <!-- ИИ-чат -->
+<script src="js/translate.js?v=26"></script> <!-- переводчик -->
+<script src="js/settings.js?v=26"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
 
 <!-- Регистрация service worker (оффлайн-кэш) + авто-обновление. См. sw.js -->
 <script>
