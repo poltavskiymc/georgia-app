@@ -21,7 +21,8 @@ function makeRow(p){
   row.appendChild(txt);
   const btn=document.createElement('button'); btn.className='say'; btn.textContent='🔊';
   btn.title = canSpeak ? 'Озвучить' : 'Озвучка недоступна на этом устройстве';
-  btn.addEventListener('click',()=>speak(ka.split(' / ')[0]));
+  // tr — запасной вариант: если грузинского голоса в системе нет (iOS), читаем транскрипцию
+  btn.addEventListener('click',()=>speak(ka.split(' / ')[0], 'ka-GE', tr.split(' / ')[0]));
   row.appendChild(btn);
   return row;
 }

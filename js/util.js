@@ -24,11 +24,29 @@ function haversine(a,b){
 }
 function fmtDist(km){ if(km<1) return Math.round(km*1000)+' м'; if(km<10) return km.toFixed(1)+' км'; return Math.round(km)+' км'; }
 
-// озвучка (разговорник, переводчик). lang: 'ka-GE' | 'en-US' | ...
-const canSpeak = 'speechSynthesis' in window;
-function speak(text, lang='ka-GE'){
-  if(!canSpeak) return;
+/* Озвучка (разговорник, переводчик). lang: 'ka-GE' | 'en-US' | ...
+   Грузинского голоса в iOS нет вообще (Apple его не поставляет), и запрос ka-GE
+   там просто молчит. Поэтому: голос под язык ищем явно, а если грузинского в системе
+   нет — читаем русскую транскрипцию (fallback) русским голосом. Звучит близко. */
+const canSpeak = 'speechSynthesis' in window && typeof speechSynthesis.getVoices === 'function';
+let voices = [];
+function loadVoices(){ try{ voices = speechSynthesis.getVoices()||[]; }catch(_){ voices=[]; } }
+if(canSpeak){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;  // Safari/Chrome отдают список асинхронно
+}
+// голос по коду языка ('ka-GE' → любой голос с lang ka*)
+function voiceFor(lang){
+  if(!voices.length) loadVoices();
+  const p = lang.slice(0,2).toLowerCase();
+  return voices.find(v => (v.lang||'').toLowerCase().replace('_','-').startsWith(p)) || null;
+}
+function speak(text, lang='ka-GE', fallbackText){
+  if(!canSpeak || !text) return;
+  let v = voiceFor(lang);
+  if(!v && fallbackText && voiceFor('ru')){ text=fallbackText; lang='ru-RU'; v=voiceFor('ru'); }
   const u = new SpeechSynthesisUtterance(text);
-  u.lang=lang; u.rate=.85;
+  u.lang = v ? v.lang : lang; u.rate=.85;
+  if(v) u.voice=v;                                // без явного голоса iOS часто молчит
   speechSynthesis.cancel(); speechSynthesis.speak(u);
 }

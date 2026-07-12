@@ -15,7 +15,7 @@ function trRow(lng, val, cls, translit){
   row.appendChild(txt);
   if(canSpeak){
     const b=document.createElement('button'); b.className='say'; b.textContent='🔊';
-    b.addEventListener('click',()=>speak(val, SPEAK_LANG[cls]||'en-US'));
+    b.addEventListener('click',()=>speak(val, SPEAK_LANG[cls]||'en-US', cls==='ka' ? translit : ''));
     row.appendChild(b);
   }
   return row;
