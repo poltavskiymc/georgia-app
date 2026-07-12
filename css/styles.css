@@ -12,6 +12,10 @@ body{
   background:var(--paper); color:var(--ink); line-height:1.5;
   -webkit-tap-highlight-color:transparent;
   padding-bottom:calc(72px + env(safe-area-inset-bottom));
+  /* iOS 26 в PWA урезает вьюпорт на высоту Home-индикатора, ПОКА страница не прокручивается
+     (innerHeight 894 вместо 956) — и тогда fixed-навбар садится на 62px выше низа экрана.
+     Держим документ гарантированно выше вьюпорта: iOS отдаёт полную высоту, навбар прижат к низу. */
+  min-height:calc(100vh + 1px);
 }
 header{
   background:linear-gradient(135deg,var(--wine),var(--wine2));
