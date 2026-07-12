@@ -38,8 +38,14 @@
     </div>
   </section>
 
-  <!-- ПЕРЕВОДЧИК -->
-  <section class="view" id="v-translate">
+  <!-- ЯЗЫК: переводчик + разговорник (переключатель внутри вкладки) -->
+  <section class="view" id="v-lang">
+    <div class="tabs" data-sub="lang">
+      <button data-s="translate" class="active">🌐 Перевод</button>
+      <button data-s="phrase">🗣️ Фразы</button>
+    </div>
+
+    <div class="subview active" id="s-translate">
     <div class="card">
       <h2>🌐 Переводчик</h2>
       <p class="muted">Напиши фразу по-русски — получишь перевод на английский и грузинский, каждый можно прослушать.</p>
@@ -58,31 +64,75 @@
       <p class="muted" id="trHint" style="margin:8px 0 0; font-size:12px"></p>
       <div id="trResult"></div>
     </div>
-  </section>
-
-  <!-- РАЗГОВОРНИК -->
-  <section class="view" id="v-phrase">
-    <div class="card" style="margin-bottom:8px">
-      <input type="text" id="phraseSearch" placeholder="🔍 поиск фразы…">
     </div>
-    <div id="phraseList"></div>
-  </section>
 
-  <!-- МАРШРУТ -->
-  <section class="view" id="v-route">
-    <div class="card">
-      <h2>🗺️ Куда съездить</h2>
-      <p class="muted">Гид по стране. Жми на регион, чтобы раскрыть, и на 🧭 у точки — построить маршрут в навигаторе.</p>
-      <div class="seg" id="navSeg">
-        <span class="segl">Строить маршрут в:</span>
-        <button data-nav="google">Google</button>
-        <button data-nav="yandex">Яндекс</button>
-        <button data-nav="mapsme">Maps.me</button>
+    <div class="subview" id="s-phrase">
+      <div class="card" style="margin-bottom:8px">
+        <input type="text" id="phraseSearch" placeholder="🔍 поиск фразы…">
       </div>
-      <button class="btn sm" id="geoBtn" style="margin-top:10px">📍 Показать расстояния от меня</button>
-      <p class="muted" id="geoHint" style="margin:6px 0 0; font-size:12px"></p>
+      <div id="phraseList"></div>
     </div>
-    <div id="routeList"></div>
+  </section>
+
+  <!-- ГИД: места + еда (переключатель внутри вкладки) -->
+  <section class="view" id="v-guide">
+    <div class="tabs" data-sub="guide">
+      <button data-s="route" class="active">🗺️ Места</button>
+      <button data-s="food">🍽️ Еда</button>
+    </div>
+
+    <div class="subview active" id="s-route">
+      <div class="card">
+        <h2>🗺️ Куда съездить</h2>
+        <p class="muted">Гид по стране. Жми на регион, чтобы раскрыть; 🧭 у точки — маршрут в навигаторе, ＋ — добавить в «План».</p>
+        <div class="seg" id="navSeg">
+          <span class="segl">Строить маршрут в:</span>
+          <button data-nav="google">Google</button>
+          <button data-nav="yandex">Яндекс</button>
+          <button data-nav="mapsme">Maps.me</button>
+        </div>
+        <button class="btn sm" id="geoBtn" style="margin-top:10px">📍 Показать расстояния от меня</button>
+        <p class="muted" id="geoHint" style="margin:6px 0 0; font-size:12px"></p>
+      </div>
+      <div id="routeList"></div>
+    </div>
+
+    <div class="subview" id="s-food">
+      <div class="card">
+        <h2>🍽️ Грузинская кухня</h2>
+        <p class="muted">Что обязательно попробовать. Жми на блюдо — фото, состав, вкус, история и факт. ＋ — добавить в «План», а попробовал — поставь оценку в хинкалях 🥟 из 5.</p>
+      </div>
+      <div id="foodList"></div>
+    </div>
+  </section>
+
+  <!-- ПЛАН: сборы + что посмотреть + что попробовать -->
+  <section class="view" id="v-plan">
+    <div class="card">
+      <h2>✅ Мой план</h2>
+      <p class="muted">Сборы в дорогу плюс места и блюда, которые ты добавил в «Гиде» кнопкой ＋. Галочки хранятся на этом телефоне.</p>
+      <div class="prog" id="planProg"></div>
+    </div>
+
+    <details class="card packcard">
+      <summary><span>🧳 Сборы и граница</span><span class="cnt" id="packCnt"></span></summary>
+      <div class="pbody">
+        <p class="muted">Чек-лист для машины и Верхнего Ларса.</p>
+        <div id="packList"></div>
+        <button class="btn ghost sm" id="packReset" style="margin-top:12px">Снять все галочки</button>
+      </div>
+    </details>
+
+    <div class="card">
+      <h2>📍 Хочу посмотреть<span class="cnt" id="seeCnt"></span></h2>
+      <div id="seeList"></div>
+    </div>
+
+    <div class="card">
+      <h2>🍽️ Хочу попробовать<span class="cnt" id="eatCnt"></span></h2>
+      <div id="eatList"></div>
+      <p class="muted" id="eatTop" hidden></p>
+    </div>
   </section>
 
   <!-- ДЕНЬГИ -->
@@ -108,15 +158,6 @@
       <h2>ℹ️ Практика</h2>
       <div id="tips"></div>
     </div>
-  </section>
-
-  <!-- ЕДА -->
-  <section class="view" id="v-food">
-    <div class="card">
-      <h2>🍽️ Грузинская кухня</h2>
-      <p class="muted">Что обязательно попробовать. Жми на блюдо — фото, состав, вкус, история и факт.</p>
-    </div>
-    <div id="foodList"></div>
   </section>
 
   <!-- НАСТРОЙКИ (открывается шестерёнкой в шапке) -->
@@ -177,11 +218,10 @@
 
 <nav>
   <button data-v="chat" class="active"><span class="ic">💬</span>Чат</button>
-  <button data-v="translate"><span class="ic">🌐</span>Перевод</button>
-  <button data-v="phrase"><span class="ic">🗣️</span>Фразы</button>
-  <button data-v="route"><span class="ic">🗺️</span>Маршрут</button>
+  <button data-v="lang"><span class="ic">🗣️</span>Язык</button>
+  <button data-v="guide"><span class="ic">🧭</span>Гид</button>
+  <button data-v="plan"><span class="ic">✅</span>План</button>
   <button data-v="money"><span class="ic">💸</span>Деньги</button>
-  <button data-v="food"><span class="ic">🍽️</span>Еда</button>
 </nav>
 
 <div class="chatbar" id="chatbar">
@@ -198,9 +238,10 @@
 <script src="js/traffic.js"></script>   <!-- учёт трафика -->
 <script src="js/nav.js"></script>       <!-- переключение вкладок -->
 <script src="js/phrases.js"></script>   <!-- разговорник + избранное -->
-<script src="js/route.js"></script>     <!-- маршрут: навигаторы + расстояния (OSRM) -->
+<script src="js/plan.js"></script>      <!-- вкладка «План»: сборы + что посмотреть/попробовать -->
+<script src="js/route.js"></script>     <!-- «Гид» → Места: навигаторы + расстояния (OSRM) -->
 <script src="js/wiki.js"></script>      <!-- энциклопедия по регионам (Википедия) -->
-<script src="js/food.js"></script>      <!-- вкладка «Еда»: блюда с фото и историей -->
+<script src="js/food.js"></script>      <!-- «Гид» → Еда: блюда с фото и историей -->
 <script src="js/money.js"></script>     <!-- конвертер + курс -->
 <script src="js/chat.js"></script>      <!-- ИИ-чат -->
 <script src="js/translate.js"></script> <!-- переводчик -->

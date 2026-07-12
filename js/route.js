@@ -47,6 +47,19 @@ async function applyDist(){
   }catch(e){ setHint('Расстояния по прямой (дороги недоступны).'); }
 }
 
+/* Кнопка ＋ у точки: добавить/убрать в «План» → «Хочу посмотреть» (plan.js).
+   id пункта — координаты: они стабильны и не дают добавить одно место дважды. */
+function syncPlanBtns(){
+  document.querySelectorAll('#routeList .addp').forEach(b=>{
+    const it=planItem('see','poi:'+b.dataset.c);
+    b.classList.toggle('on', !!it);
+    b.classList.toggle('done', !!(it&&it.done));
+    b.textContent = it ? '✓' : '＋';
+    b.title = it ? 'В плане — убрать' : 'Добавить в план';
+  });
+}
+document.addEventListener('planchange', syncPlanBtns);   // пункт убрали прямо из «Плана»
+
 (function renderRoute(){
   const box=document.getElementById('routeList'); const card=document.createElement('div'); card.className='card';
   ROUTE.forEach(([t,d,center,pois,fact,wiki])=>{
@@ -56,6 +69,7 @@ async function applyDist(){
       `<div class="poi"><div class="pin">${ic}</div>`+
       `<div class="pt"><div class="pn">${name}</div>${note?`<div class="pd">${note}</div>`:''}</div>`+
       `<span class="dist" data-c="${coord}"></span>`+
+      `<button type="button" class="addp" data-c="${coord}" data-n="${esc(name)}" data-e="${ic}" data-r="${esc(cityName)}">＋</button>`+
       `<a class="ph" href="${photoLink(name+' '+cityName)}" target="_blank" rel="noopener" title="Фото">📷</a>`+
       `<a class="go navpt" data-c="${coord}" data-n="${encodeURIComponent(name)}" target="_blank" rel="noopener" title="Маршрут">🧭</a></div>`
     ).join('');
@@ -72,6 +86,11 @@ async function applyDist(){
     card.appendChild(d1);
   });
   box.appendChild(card);
+  card.querySelectorAll('.addp').forEach(b=>b.addEventListener('click',()=>{
+    planToggle('see',{ id:'poi:'+b.dataset.c, emoji:b.dataset.e, name:b.dataset.n, sub:b.dataset.r, coord:b.dataset.c });
+    syncPlanBtns();
+  }));
+  syncPlanBtns();
   applyNav(); applyDist();
 })();
 

@@ -173,6 +173,68 @@ details .body b{color:var(--wine2)}
 .dish .dfield{font-size:13.5px; line-height:1.55; margin-top:7px}
 .dish .dfield b{color:var(--wine2)}
 @media (prefers-color-scheme:dark){.dish .dfield b{color:var(--gold)}}
+/* переключатель под-вкладок внутри «Язык» (Перевод/Фразы) и «Гид» (Места/Еда) */
+.tabs{display:flex; gap:6px; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:4px; margin-bottom:12px; box-shadow:var(--shadow)}
+.tabs button{flex:1; border:0; background:none; color:var(--muted); border-radius:9px; padding:9px 6px; font-size:13.5px; font-weight:600; cursor:pointer; font-family:inherit}
+.tabs button.active{background:var(--wine); color:#fff}
+@media (prefers-color-scheme:dark){.tabs button.active{background:var(--gold); color:#1c1a17}}
+.subview{display:none}
+.subview.active{display:block; animation:fade .18s ease}
+
+/* кнопка «＋ в план» — у точки в «Местах» и в заголовке блюда в «Еде» */
+.addp{flex-shrink:0; width:30px; height:30px; padding:0; border-radius:9px; border:1.5px solid var(--line);
+  background:var(--paper); color:var(--muted); font-size:15px; font-weight:700; line-height:1; cursor:pointer; font-family:inherit}
+.addp:active{transform:scale(.88)}
+.addp.on{background:var(--wine); border-color:var(--wine); color:#fff}
+@media (prefers-color-scheme:dark){.addp.on{background:var(--gold); border-color:var(--gold); color:#1c1a17}}
+.addp.done{background:var(--ok); border-color:var(--ok); color:#fff}
+.dish summary .addp{margin-left:8px}
+
+/* оценка блюда в хинкалях (0–5): в карточке блюда и в «Плане» */
+.rate{display:inline-flex; gap:2px; vertical-align:middle}
+.hk{border:0; background:none; padding:2px 1px; font-size:19px; line-height:1; cursor:pointer;
+  filter:grayscale(1); opacity:.35; transition:opacity .12s, filter .12s}
+.hk.on{filter:none; opacity:1}
+.hk:active{transform:scale(1.25)}
+.rateline{display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line); font-size:13.5px}
+.rateline b{color:var(--wine2)}
+@media (prefers-color-scheme:dark){.rateline b{color:var(--gold)}}
+.rnote{font-size:12.5px; color:var(--muted); font-style:italic}
+.chk .rate{display:flex; margin-top:3px}
+.chk .rate .hk{font-size:17px}
+
+/* прогресс-полоска (вкладка «План») */
+.prog{display:flex; align-items:center; gap:10px; margin-top:10px}
+.prog .bar{flex:1; height:8px; border-radius:6px; background:var(--line); overflow:hidden}
+.prog .bar i{display:block; height:100%; background:var(--ok); border-radius:6px; transition:width .25s ease}
+.prog .pn{flex-shrink:0; font-size:12.5px; font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums}
+
+/* чек-листы вкладки «План»: сборы, «хочу посмотреть», «хочу попробовать» */
+.card h2{display:flex; align-items:center; gap:6px}
+.packcard{padding:0 14px}
+.packcard>summary{display:flex; align-items:center; gap:6px; padding:13px 0; font-size:15px; font-weight:700; color:var(--wine2)}
+@media (prefers-color-scheme:dark){.packcard>summary{color:var(--gold)}}
+.packcard .pbody{padding:2px 0 14px}
+.packcard .pbody>.muted{margin:0}
+.cnt{margin-left:auto; font-size:12.5px; font-weight:700; color:var(--muted); font-variant-numeric:tabular-nums}
+.cnt.all,.grp.all .cnt{color:var(--ok)}
+.grp summary{display:flex; align-items:center; gap:4px}
+.grp .gname{font-size:14px}
+.chk{display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px dashed var(--line); cursor:pointer}
+.chk:last-child{border-bottom:0}
+.chk .box{flex-shrink:0; width:22px; height:22px; margin-top:1px; border-radius:6px; border:1.5px solid var(--line); background:var(--paper); color:transparent; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; line-height:1}
+.chk.on .box{background:var(--ok); border-color:var(--ok); color:#fff}
+.chk:active .box{transform:scale(.88)}
+.chk .ct{flex:1; min-width:0}
+.chk .cn{display:block; font-size:14px; font-weight:600}
+.chk .ch{display:block; font-size:12.5px; color:var(--muted); margin-top:1px}
+.chk.on .cn{color:var(--muted); font-weight:500; text-decoration:line-through}
+.chk .go{flex-shrink:0; border:1px solid var(--line); background:var(--card); color:var(--wine2); border-radius:9px; padding:5px 9px; font-size:13px; text-decoration:none}
+@media (prefers-color-scheme:dark){.chk .go{color:var(--gold)}}
+.chk .del{flex-shrink:0; border:0; background:none; color:var(--muted); font-size:15px; padding:4px 2px; cursor:pointer; line-height:1}
+.chk .del:active{transform:scale(.85)}
+.empty{margin:6px 0 0; font-style:italic}
+
 .trrow{display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px solid var(--line)}
 .trrow:last-child{border-bottom:0}
 .trrow .txt{flex:1; min-width:0}
