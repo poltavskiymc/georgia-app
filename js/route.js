@@ -49,7 +49,7 @@ async function applyDist(){
 
 (function renderRoute(){
   const box=document.getElementById('routeList'); const card=document.createElement('div'); card.className='card';
-  ROUTE.forEach(([t,d,center,pois,fact])=>{
+  ROUTE.forEach(([t,d,center,pois,fact,wiki])=>{
     const d1=document.createElement('details');
     const cityName=t.replace(/^\S+\s/,'').split(' (')[0].split(' / ')[0];
     const rows=(pois||[]).map(([ic,name,coord,note])=>
@@ -65,6 +65,7 @@ async function applyDist(){
       (fact?`<div class="fact">💡 <b>А знаешь?</b> ${fact}</div>`:'')+
       (rows?`<div style="margin-top:6px">${rows}</div>`:'')+
       `<div class="maplinks">`+
+        (wiki?`<button class="wikibtn" data-wiki="${wiki}" data-title="${esc(cityName)}">📖 Энциклопедия</button>`:'')+
         `<a class="navpt" data-c="${center}" data-n="${encodeURIComponent(cityName)}" target="_blank" rel="noopener">📍 На карте</a>`+
         `<a href="https://www.google.com/search?tbm=isch&q=${encodeURIComponent(cityName+' Georgia')}" target="_blank" rel="noopener">📷 Фото</a>`+
       `</div></div>`;

@@ -130,6 +130,17 @@
   </section>
 </main>
 
+<!-- Энциклопедия (Википедия) — модальное окно -->
+<div id="wikiModal" class="modal" hidden>
+  <div class="modal-card">
+    <div class="modal-head">
+      <span id="wikiTitle">📖</span>
+      <button id="wikiClose" class="modal-x" title="Закрыть">✕</button>
+    </div>
+    <div class="modal-body" id="wikiBody"></div>
+  </div>
+</div>
+
 <nav>
   <button data-v="chat" class="active"><span class="ic">💬</span>Чат</button>
   <button data-v="translate"><span class="ic">🌐</span>Перевод</button>
@@ -154,6 +165,7 @@
 <script src="js/nav.js"></script>       <!-- переключение вкладок -->
 <script src="js/phrases.js"></script>   <!-- разговорник + избранное -->
 <script src="js/route.js"></script>     <!-- маршрут: навигаторы + расстояния (OSRM) -->
+<script src="js/wiki.js"></script>      <!-- энциклопедия по регионам (Википедия) -->
 <script src="js/money.js"></script>     <!-- конвертер + курс -->
 <script src="js/chat.js"></script>      <!-- ИИ-чат -->
 <script src="js/translate.js"></script> <!-- переводчик -->

@@ -15,11 +15,11 @@ body{
 }
 header{
   background:linear-gradient(135deg,var(--wine),var(--wine2));
-  color:#fff; padding:calc(7px + env(safe-area-inset-top)) 16px 7px;
+  color:#fff; padding:calc(4px + env(safe-area-inset-top)) 14px 4px;
   position:sticky; top:0; z-index:20;
 }
-header h1{margin:0; font-size:16px; font-weight:700; display:flex; align-items:center; gap:7px}
-header .sub{opacity:.8; font-size:11px; margin-top:1px}
+header h1{margin:0; font-size:14.5px; font-weight:700; display:flex; align-items:center; gap:6px}
+header .sub{opacity:.75; font-size:10px; margin-top:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 main{max-width:640px; margin:0 auto; padding:14px}
 .view{display:none; animation:fade .18s ease}
 .view.active{display:block}
@@ -117,6 +117,19 @@ details .body b{color:var(--wine2)}
 .seg button{border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:8px; padding:7px 14px; font-size:13px; font-weight:600; cursor:pointer}
 .seg button.active{background:var(--wine); color:#fff; border-color:var(--wine)}
 .ver{text-align:center; margin:16px 0 4px; font-size:11px; color:var(--muted)}
+.maplinks .wikibtn{border:1px solid var(--wine); background:var(--wine); color:#fff; border-radius:9px; padding:8px 12px; font-size:13px; font-weight:600; cursor:pointer}
+.modal{position:fixed; inset:0; z-index:60; background:rgba(0,0,0,.5); display:flex; align-items:flex-end; justify-content:center}
+.modal[hidden]{display:none}
+.modal-card{background:var(--paper); width:100%; max-width:640px; max-height:88vh; border-radius:16px 16px 0 0; display:flex; flex-direction:column; animation:slideup .22s ease}
+@keyframes slideup{from{transform:translateY(100%)}to{transform:none}}
+.modal-head{display:flex; align-items:center; gap:10px; padding:14px 16px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--paper); border-radius:16px 16px 0 0}
+.modal-head #wikiTitle{flex:1; min-width:0; font-size:16px; font-weight:700; color:var(--wine2)}
+@media (prefers-color-scheme:dark){.modal-head #wikiTitle{color:var(--gold)}}
+.modal-x{border:0; background:var(--card); color:var(--ink); width:34px; height:34px; border-radius:50%; font-size:15px; cursor:pointer; flex-shrink:0; border:1px solid var(--line)}
+.modal-body{padding:14px 16px calc(20px + env(safe-area-inset-bottom)); overflow-y:auto; -webkit-overflow-scrolling:touch}
+.modal-body p{margin:0 0 10px; font-size:14.5px; line-height:1.6}
+.wiki-img{width:100%; max-height:240px; object-fit:cover; border-radius:12px; margin-bottom:12px}
+.wiki-more{display:inline-block; margin-top:6px; font-weight:600; text-decoration:none}
 .trrow{display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px solid var(--line)}
 .trrow:last-child{border-bottom:0}
 .trrow .txt{flex:1; min-width:0}
