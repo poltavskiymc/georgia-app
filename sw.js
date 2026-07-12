@@ -4,7 +4,7 @@
 // Обновления кода прилетают через смену версии кеша ниже + skipWaiting/claim, а страница
 // сама перезагрузится (см. регистрацию в index.html). Внешние API не трогаем.
 // !!! Бампни CACHE при изменении любого файла из ASSETS.
-const CACHE = 'georgia-v9';
+const CACHE = 'georgia-v10';
 const ASSETS = [
   './',
   './index.html',
