@@ -153,6 +153,9 @@
   </div>
 </div>
 
+<!-- ВРЕМЕННО: диагностика вьюпорта на iOS (убрать после починки навбара) -->
+<div id="diag"></div>
+
 <nav>
   <button data-v="chat" class="active"><span class="ic">💬</span>Чат</button>
   <button data-v="translate"><span class="ic">🌐</span>Перевод</button>
@@ -183,6 +186,7 @@
 <script src="js/chat.js"></script>      <!-- ИИ-чат -->
 <script src="js/translate.js"></script> <!-- переводчик -->
 <script src="js/settings.js"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
+<script src="js/diag.js"></script>      <!-- ВРЕМЕННО: диагностика вьюпорта на iOS -->
 
 <!-- Регистрация service worker (оффлайн-кэш) + авто-обновление. См. sw.js -->
 <script>

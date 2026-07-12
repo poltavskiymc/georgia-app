@@ -4,7 +4,7 @@
 // Обновления кода прилетают через смену версии кеша ниже + skipWaiting/claim, а страница
 // сама перезагрузится (см. регистрацию в index.html). Внешние API не трогаем.
 // !!! Бампни CACHE при изменении любого файла из ASSETS.
-const CACHE = 'georgia-v14';
+const CACHE = 'georgia-v15';
 const ASSETS = [
   './',
   './index.html',
@@ -21,6 +21,7 @@ const ASSETS = [
   './js/chat.js',
   './js/translate.js',
   './js/settings.js',
+  './js/diag.js',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',

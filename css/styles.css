@@ -165,3 +165,7 @@ details .body b{color:var(--wine2)}
 @media (prefers-color-scheme:dark){.fact b{color:var(--gold)}}
 a{color:var(--wine2)}
 @media (prefers-color-scheme:dark){a{color:var(--gold)}}
+
+/* ВРЕМЕННО: диагностика вьюпорта (убрать после починки навбара) */
+#diag{position:fixed; left:6px; right:6px; bottom:calc(120px + env(safe-area-inset-bottom)); z-index:99;
+  background:rgba(0,0,0,.82); color:#0f0; font:11px/1.45 ui-monospace,Menlo,monospace; padding:7px 9px; border-radius:8px; white-space:pre}
