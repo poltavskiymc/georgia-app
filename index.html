@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Грузия">
-<link rel="stylesheet" href="css/styles.css?v=22">
+<link rel="stylesheet" href="css/styles.css?v=23">
 </head>
 <body>
 <header>
@@ -110,7 +110,8 @@
   <section class="view" id="v-plan">
     <div class="card">
       <h2>✅ Мой план</h2>
-      <p class="muted">Сборы в дорогу плюс места и блюда, которые ты добавил в «Гиде» кнопкой ＋. Галочки хранятся на этом телефоне.</p>
+      <p class="muted">Сборы в дорогу плюс места и блюда, которые ты добавил в «Гиде» кнопкой ＋.</p>
+      <p class="muted" id="planWhere" style="font-size:12px"></p>
       <div class="prog" id="planProg"></div>
     </div>
 
@@ -175,6 +176,32 @@
       </div>
       <p class="warn">Совет: на platform.deepseek.com поставь лимит расхода, чтобы точно не улететь в трубу.</p>
     </div>
+    <div class="card" id="tripCard">
+      <h2>👥 Совместная поездка</h2>
+      <p class="muted">Один создаёт поездку и отправляет код второму — и «План» (сборы, места, блюда, оценки в хинкалях) становится общим: отметил на своём телефоне — появилось на втором. Чат, ключ и трафик остаются личными.</p>
+
+      <div id="tripNone">
+        <button class="btn" id="tripCreate">Создать поездку</button>
+        <label style="margin-top:14px">Или присоединиться к чужой — впиши код (или вставь ссылку)</label>
+        <input type="text" id="tripInput" placeholder="напр. K7M4-QP2X" autocapitalize="characters" autocomplete="off" spellcheck="false">
+        <button class="btn ghost sm" id="tripJoin" style="margin-top:8px">Присоединиться</button>
+      </div>
+
+      <div id="tripOn" hidden>
+        <div class="tripid">
+          <span class="tid" id="tripIdText">—</span>
+          <button class="btn sm" id="tripShare">📤 Поделиться</button>
+        </div>
+        <div class="ratestatus"><span class="dot" id="tripDot"></span><span id="tripStatus">—</span></div>
+        <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap">
+          <button class="btn ghost sm" id="tripSyncNow">🔄 Синхронизировать</button>
+          <button class="btn ghost sm" id="tripLeave">Выйти из поездки</button>
+        </div>
+      </div>
+
+      <p class="muted" id="tripHint" style="margin:8px 0 0; font-size:12px"></p>
+      <p class="warn">Код — это и есть весь пароль: кто его знает, тот видит и правит план. Не выкладывай в публичный чат.</p>
+    </div>
     <div class="card">
       <h2>📊 Расход трафика</h2>
       <div id="trafficBox"></div>
@@ -233,19 +260,20 @@
 </div>
 
 <!-- Скрипты подключаются по порядку зависимостей (без сборщика). См. README.md -->
-<script src="js/data.js?v=22"></script>      <!-- контент: фразы, маршрут, советы, промпт -->
-<script src="js/util.js?v=22"></script>      <!-- общие хелперы: esc, байты, время, дистанция, speak -->
-<script src="js/traffic.js?v=22"></script>   <!-- учёт трафика -->
-<script src="js/nav.js?v=22"></script>       <!-- переключение вкладок -->
-<script src="js/phrases.js?v=22"></script>   <!-- разговорник + избранное -->
-<script src="js/plan.js?v=22"></script>      <!-- вкладка «План»: сборы + что посмотреть/попробовать -->
-<script src="js/route.js?v=22"></script>     <!-- «Гид» → Места: навигаторы + расстояния (OSRM) -->
-<script src="js/wiki.js?v=22"></script>      <!-- энциклопедия по регионам (Википедия) -->
-<script src="js/food.js?v=22"></script>      <!-- «Гид» → Еда: блюда с фото и историей -->
-<script src="js/money.js?v=22"></script>     <!-- конвертер + курс -->
-<script src="js/chat.js?v=22"></script>      <!-- ИИ-чат -->
-<script src="js/translate.js?v=22"></script> <!-- переводчик -->
-<script src="js/settings.js?v=22"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
+<script src="js/data.js?v=23"></script>      <!-- контент: фразы, маршрут, советы, промпт -->
+<script src="js/util.js?v=23"></script>      <!-- общие хелперы: esc, байты, время, дистанция, speak -->
+<script src="js/traffic.js?v=23"></script>   <!-- учёт трафика -->
+<script src="js/nav.js?v=23"></script>       <!-- переключение вкладок -->
+<script src="js/phrases.js?v=23"></script>   <!-- разговорник + избранное -->
+<script src="js/plan.js?v=23"></script>      <!-- вкладка «План»: сборы + что посмотреть/попробовать -->
+<script src="js/trip.js?v=23"></script>      <!-- совместная поездка: синк «Плана» между телефонами по коду -->
+<script src="js/route.js?v=23"></script>     <!-- «Гид» → Места: навигаторы + расстояния (OSRM) -->
+<script src="js/wiki.js?v=23"></script>      <!-- энциклопедия по регионам (Википедия) -->
+<script src="js/food.js?v=23"></script>      <!-- «Гид» → Еда: блюда с фото и историей -->
+<script src="js/money.js?v=23"></script>     <!-- конвертер + курс -->
+<script src="js/chat.js?v=23"></script>      <!-- ИИ-чат -->
+<script src="js/translate.js?v=23"></script> <!-- переводчик -->
+<script src="js/settings.js?v=23"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
 
 <!-- Регистрация service worker (оффлайн-кэш) + авто-обновление. См. sw.js -->
 <script>

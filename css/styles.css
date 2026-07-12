@@ -250,3 +250,9 @@ details .body b{color:var(--wine2)}
 @media (prefers-color-scheme:dark){.fact b{color:var(--gold)}}
 a{color:var(--wine2)}
 @media (prefers-color-scheme:dark){a{color:var(--gold)}}
+
+/* совместная поездка (⚙️): код крупно и моноширинно — его диктуют голосом и переписывают руками */
+.tripid{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px}
+.tripid .tid{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:20px; font-weight:800; letter-spacing:2px;
+  color:var(--wine2); background:var(--paper); border:1px dashed var(--line); border-radius:10px; padding:9px 13px; user-select:all}
+#tripInput{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:2px; text-transform:uppercase}
