@@ -60,6 +60,8 @@ nav button.active{color:var(--wine2)}
 .fav.on{color:var(--gold)}
 .fav:active{transform:scale(.85)}
 
+/* --chatbar-h выставляет chat.js по реальной высоте плашки ввода (она растёт вместе с полем) */
+#v-chat{padding-bottom:var(--chatbar-h,104px)}
 #chatLog{min-height:40vh}
 .msg{margin-bottom:10px; display:flex}
 .msg .bub{max-width:85%; padding:9px 12px; border-radius:14px; font-size:14.5px; white-space:pre-wrap; word-wrap:break-word; overflow-wrap:anywhere}

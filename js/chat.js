@@ -23,7 +23,15 @@ function renderChat(){
 const CHIPS=["Что попробовать из еды?","Составь план на 5 дней","Переведи: сколько стоит проехать до Казбеги?","Какое вино взять с собой?","Романтичное место на вечер"];
 (function(){ const c=document.getElementById('chips'); CHIPS.forEach(t=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=t; b.onclick=()=>{inputEl.value=t; send();}; c.appendChild(b); }); })();
 
-function growInput(){ inputEl.style.height='auto'; inputEl.style.height=Math.min(inputEl.scrollHeight,160)+'px'; }
+/* Плашка ввода — fixed, поэтому сама она чат не «раздвигает»: отдаём её высоту в CSS
+   (--chatbar-h → padding-bottom у #v-chat), иначе нижние сообщения уезжают под неё. */
+const barEl=document.getElementById('chatbar');
+function syncBarHeight(){ document.documentElement.style.setProperty('--chatbar-h', barEl.offsetHeight+'px'); }
+if(window.ResizeObserver) new ResizeObserver(syncBarHeight).observe(barEl);
+window.addEventListener('resize',syncBarHeight);
+syncBarHeight();
+
+function growInput(){ inputEl.style.height='auto'; inputEl.style.height=Math.min(inputEl.scrollHeight,160)+'px'; syncBarHeight(); }
 inputEl.addEventListener('input',growInput);
 inputEl.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(); } });
 sendBtn.addEventListener('click',send);
@@ -32,7 +40,7 @@ async function send(){
   const text=inputEl.value.trim(); if(!text) return;
   const key=localStorage.getItem('ds_key');
   if(!key){ show('settings'); alert('Сначала вставь ключ DeepSeek во вкладке ⚙️ Ключ'); return; }
-  inputEl.value=''; inputEl.style.height='auto';
+  inputEl.value=''; inputEl.style.height='auto'; syncBarHeight();
   history.push({role:'user',content:text}); renderChat();
   sendBtn.disabled=true;
   const typing=document.createElement('div'); typing.className='msg a'; typing.innerHTML='<div class="bub">…</div>'; logEl.appendChild(typing); window.scrollTo(0,document.body.scrollHeight);
