@@ -2,7 +2,7 @@
    Загружается ПОСЛЕДНИМ: использует refreshKeyHint/renderChat/history из chat.js,
    renderTraffic/traffic из traffic.js, show из nav.js. */
 
-const APP_VERSION = '2026-07-12 · сборка 17';
+const APP_VERSION = '2026-07-12 · сборка 19';
 
 const apiKeyEl=document.getElementById('apiKey'), modelEl=document.getElementById('model');
 apiKeyEl.value = localStorage.getItem('ds_key')||'';
@@ -12,7 +12,8 @@ document.getElementById('saveKey').addEventListener('click',()=>{
   localStorage.setItem('ds_model', modelEl.value.trim()||'deepseek-chat');
   refreshKeyHint(); alert('Сохранено ✅'); show('chat');
 });
-document.getElementById('clearChat').addEventListener('click',()=>{ history.length=0; localStorage.removeItem('ds_hist'); renderChat(); alert('Чат очищен'); });
+// чистит только активный чат; остальные живут в списке 🗂 на вкладке «Чат»
+document.getElementById('clearChat').addEventListener('click',()=>{ clearCurrentChat(); alert('Текущий чат очищен'); show('chat'); });
 
 document.getElementById('resetTraffic').addEventListener('click',()=>{ traffic.up=0; traffic.down=0; traffic.since=Date.now(); saveTraffic(); renderTraffic(); });
 renderTraffic();

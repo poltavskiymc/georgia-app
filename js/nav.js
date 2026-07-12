@@ -10,5 +10,14 @@ function show(v){
   window.scrollTo(0,0);
 }
 navBtns.forEach(b=>b.addEventListener('click',()=>show(b.dataset.v)));
+
+/* Реальная высота навбара (кнопки + safe-area) — в CSS как --nav-h.
+   К ней прижимается плашка ввода чата: с захардкоженным отступом между ними
+   оставалась щель, и в неё просвечивал проскролленный текст. */
+const navEl=document.querySelector('nav');
+function syncNavHeight(){ document.documentElement.style.setProperty('--nav-h', navEl.offsetHeight+'px'); }
+if(window.ResizeObserver) new ResizeObserver(syncNavHeight).observe(navEl);
+window.addEventListener('resize',syncNavHeight);
+syncNavHeight();
 // настройки открываются шестерёнкой в шапке (не вкладкой)
 document.getElementById('settingsBtn').addEventListener('click',()=>show('settings'));

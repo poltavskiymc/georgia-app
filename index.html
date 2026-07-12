@@ -25,6 +25,11 @@
 <main>
   <!-- ЧАТ -->
   <section class="view active" id="v-chat">
+    <div class="chattop">
+      <div class="ctitle" id="curTitle">Новый чат</div>
+      <button class="btn ghost sm" id="chatsBtn">🗂 Чаты</button>
+      <button class="btn ghost sm" id="newChat">＋ Новый</button>
+    </div>
     <div id="chatLog"></div>
     <div id="chatEmpty" class="card">
       <h2>🤖 ИИ-помощник по Грузии</h2>
@@ -125,7 +130,7 @@
       <input type="text" id="model" value="deepseek-chat">
       <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap">
         <button class="btn" id="saveKey">Сохранить</button>
-        <button class="btn ghost" id="clearChat">Очистить чат</button>
+        <button class="btn ghost" id="clearChat">Очистить текущий чат</button>
       </div>
       <p class="warn">Совет: на platform.deepseek.com поставь лимит расхода, чтобы точно не улететь в трубу.</p>
     </div>
@@ -147,6 +152,17 @@
     <p class="ver" id="verLine"></p>
   </section>
 </main>
+
+<!-- Список чатов — модальное окно -->
+<div id="chatsModal" class="modal" hidden>
+  <div class="modal-card">
+    <div class="modal-head">
+      <span id="chatsMTitle">🗂 Мои чаты</span>
+      <button id="chatsClose" class="modal-x" title="Закрыть">✕</button>
+    </div>
+    <div class="modal-body" id="chatsBody"></div>
+  </div>
+</div>
 
 <!-- Энциклопедия (Википедия) — модальное окно -->
 <div id="wikiModal" class="modal" hidden>

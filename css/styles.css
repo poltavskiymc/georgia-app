@@ -64,6 +64,19 @@ nav button.active{color:var(--wine2)}
 .fav.on{color:var(--gold)}
 .fav:active{transform:scale(.85)}
 
+/* шапка вкладки «Чат»: имя активного чата + список чатов + новый чат */
+.chattop{display:flex; align-items:center; gap:6px; margin-bottom:10px}
+.chattop .ctitle{flex:1; min-width:0; font-size:13px; font-weight:600; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.chatrow{display:flex; align-items:center; gap:10px; padding:11px 0; border-bottom:1px solid var(--line)}
+.chatrow:last-child{border-bottom:0}
+.chatrow .ct{flex:1; min-width:0; cursor:pointer}
+.chatrow .cn{font-weight:600; font-size:14.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.chatrow .cm{font-size:12px; color:var(--muted); margin-top:1px}
+.chatrow.cur .cn{color:var(--wine2)}
+@media (prefers-color-scheme:dark){.chatrow.cur .cn{color:var(--gold)}}
+.chatrow .cdel{border:0; background:none; font-size:17px; padding:8px 2px; cursor:pointer; flex-shrink:0; line-height:1}
+.chatrow .cdel:active{transform:scale(.88)}
+
 /* --chatbar-h выставляет chat.js по реальной высоте плашки ввода (она растёт вместе с полем) */
 #v-chat{padding-bottom:var(--chatbar-h,104px)}
 #chatLog{min-height:40vh}
@@ -72,7 +85,10 @@ nav button.active{color:var(--wine2)}
 .msg.u{justify-content:flex-end}
 .msg.u .bub{background:var(--wine); color:#fff; border-bottom-right-radius:4px}
 .msg.a .bub{background:var(--card); border:1px solid var(--line); border-bottom-left-radius:4px}
-.chatbar{position:fixed; left:0; right:0; bottom:calc(60px + env(safe-area-inset-bottom)); padding:8px; background:var(--paper); border-top:1px solid var(--line)}
+/* --nav-h выставляет nav.js по реальной высоте навбара: плашка садится на него вплотную.
+   Раньше отступ был захардкожен (60px + safe-area) и не совпадал с реальной высотой —
+   в щель между плашкой и навбаром просвечивал проскролленный текст чата. */
+.chatbar{position:fixed; left:0; right:0; bottom:var(--nav-h,60px); padding:8px; background:var(--paper); border-top:1px solid var(--line)}
 .chatbar .row{max-width:640px; margin:0 auto; display:flex; gap:8px; align-items:flex-end}
 .chatbar textarea{flex:1; resize:none; border:1px solid var(--line); border-radius:18px; padding:10px 14px; font-size:15px; line-height:1.35; background:var(--card); color:var(--ink); min-height:44px; max-height:160px; overflow-y:auto; font-family:inherit}
 .chatbar .row button{border:0; background:var(--wine); color:#fff; width:44px; height:44px; border-radius:50%; font-size:18px; flex-shrink:0; cursor:pointer}
