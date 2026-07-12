@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Грузия">
-<link rel="stylesheet" href="css/styles.css?v=24">
+<link rel="stylesheet" href="css/styles.css?v=25">
 </head>
 <body>
 <header>
@@ -139,21 +139,17 @@
   <!-- ДЕНЬГИ -->
   <section class="view" id="v-money">
     <div class="card">
-      <h2>💸 Конвертер · лари ⇄ рубль</h2>
-      <label>Курс: 1 ₾ (лари) = сколько ₽ (руб)?</label>
-      <input type="number" id="rate" inputmode="decimal" placeholder="напр. 34">
+      <h2>💸 Конвертер<button class="qmark" id="moneyHelp" title="Как это работает" aria-expanded="false">?</button></h2>
+      <p class="warn" id="moneyHelpBody" hidden>Вбей сумму в любое поле — остальные пересчитаются сами.<br>
+        Онлайн — тянем курсы из сети и кешируем, оффлайн — считаем по последним сохранённым.
+        Курс, вбитый вручную, всегда главнее сетевого (обменник на границе → впиши как есть; ⟲ вернёт сетевой).</p>
+      <div id="convBox"></div>
       <div class="ratestatus"><span class="dot" id="rateDot"></span><span id="rateStatus">—</span></div>
-      <button class="btn sm" id="refreshRate">🔄 Обновить курс из сети</button>
-      <div class="conv" style="margin-top:12px">
-        <input type="number" id="gel" inputmode="decimal" placeholder="0">
-        <span class="cur">₾ GEL</span>
-      </div>
-      <button class="swap" id="swap" title="поменять">⇅</button>
-      <div class="conv">
-        <input type="number" id="rub" inputmode="decimal" placeholder="0">
-        <span class="cur">₽ RUB</span>
-      </div>
-      <p class="warn">Онлайн — тянем реальный курс и кешируем. Оффлайн — считаем по последнему сохранённому. Вбитый вручную курс всегда главнее автомата (обменник на границе → впиши как есть).</p>
+      <button class="btn sm" id="refreshRate">🔄 Обновить курсы из сети</button>
+      <details id="ratesBox">
+        <summary>Курсы · 1 ₾ = …</summary>
+        <div class="body" id="rateRows"></div>
+      </details>
     </div>
     <div class="card">
       <h2>ℹ️ Практика</h2>
@@ -260,20 +256,20 @@
 </div>
 
 <!-- Скрипты подключаются по порядку зависимостей (без сборщика). См. README.md -->
-<script src="js/data.js?v=24"></script>      <!-- контент: фразы, маршрут, советы, промпт -->
-<script src="js/util.js?v=24"></script>      <!-- общие хелперы: esc, байты, время, дистанция, speak -->
-<script src="js/traffic.js?v=24"></script>   <!-- учёт трафика -->
-<script src="js/nav.js?v=24"></script>       <!-- переключение вкладок -->
-<script src="js/phrases.js?v=24"></script>   <!-- разговорник + избранное -->
-<script src="js/plan.js?v=24"></script>      <!-- вкладка «План»: сборы + что посмотреть/попробовать -->
-<script src="js/trip.js?v=24"></script>      <!-- совместная поездка: синк «Плана» между телефонами по коду -->
-<script src="js/route.js?v=24"></script>     <!-- «Гид» → Места: навигаторы + расстояния (OSRM) -->
-<script src="js/wiki.js?v=24"></script>      <!-- энциклопедия по регионам (Википедия) -->
-<script src="js/food.js?v=24"></script>      <!-- «Гид» → Еда: блюда с фото и историей -->
-<script src="js/money.js?v=24"></script>     <!-- конвертер + курс -->
-<script src="js/chat.js?v=24"></script>      <!-- ИИ-чат -->
-<script src="js/translate.js?v=24"></script> <!-- переводчик -->
-<script src="js/settings.js?v=24"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
+<script src="js/data.js?v=25"></script>      <!-- контент: фразы, маршрут, советы, промпт -->
+<script src="js/util.js?v=25"></script>      <!-- общие хелперы: esc, байты, время, дистанция, speak -->
+<script src="js/traffic.js?v=25"></script>   <!-- учёт трафика -->
+<script src="js/nav.js?v=25"></script>       <!-- переключение вкладок -->
+<script src="js/phrases.js?v=25"></script>   <!-- разговорник + избранное -->
+<script src="js/plan.js?v=25"></script>      <!-- вкладка «План»: сборы + что посмотреть/попробовать -->
+<script src="js/trip.js?v=25"></script>      <!-- совместная поездка: синк «Плана» между телефонами по коду -->
+<script src="js/route.js?v=25"></script>     <!-- «Гид» → Места: навигаторы + расстояния (OSRM) -->
+<script src="js/wiki.js?v=25"></script>      <!-- энциклопедия по регионам (Википедия) -->
+<script src="js/food.js?v=25"></script>      <!-- «Гид» → Еда: блюда с фото и историей -->
+<script src="js/money.js?v=25"></script>     <!-- конвертер + курс -->
+<script src="js/chat.js?v=25"></script>      <!-- ИИ-чат -->
+<script src="js/translate.js?v=25"></script> <!-- переводчик -->
+<script src="js/settings.js?v=25"></script>  <!-- ключ, сброс трафика, версия + финальная инициализация -->
 
 <!-- Регистрация service worker (оффлайн-кэш) + авто-обновление. См. sw.js -->
 <script>
