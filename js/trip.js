@@ -11,7 +11,10 @@
    Грузится ПОСЛЕ plan.js (нужны plan/savePlan/renderPlan/planApplyRemote) и ПОСЛЕ nav.js (show).
    Зависит ещё от util.js (byteLen, fmtTs) и traffic.js (addTraffic). */
 
-const TRIP_API  = 'https://georgia-trip-5xq93cphsve6.poltavskiymc.deno.net';   // сервер (server/main.ts); пусто = синк выключен
+/* Сервер (server/main.ts); пусто = синк выключен. Это прод git-привязанного приложения на
+   Deno Deploy: пуш в main → сборка и деплой сами. Со старого адреса (…-5xq93cphsve6…, отдельное
+   приложение со своей KV и без автодеплоя) переехали в сборке 27, поездки перенесены по кодам. */
+const TRIP_API  = 'https://georgia-trip.poltavskiymc.deno.net';
 const TRIP_ABC  = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';     // без 0/O/1/I — их путают, когда код диктуют голосом
 const TRIP_RE   = /^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$/;
 const TRIP_POLL = 45000;                                  // как часто спрашивать «на сервере что-то поменялось?»

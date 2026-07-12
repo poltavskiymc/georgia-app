@@ -9,7 +9,7 @@
 //
 // !!! При изменении любого css/js: подними VER здесь И ТОТ ЖЕ номер в ?v=… у тегов в index.html
 //     (плюс APP_VERSION в js/settings.js). Номера должны совпадать, иначе файлы уедут мимо кеша.
-const VER = '26';
+const VER = '27';
 const CACHE = 'georgia-v' + VER;
 
 // файлы, которые index.html подключает с ?v=VER — в кеш кладём ровно с тем же URL
