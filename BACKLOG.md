@@ -77,7 +77,7 @@
 
 ## Процесс (важно для следующего чата)
 
-- Правишь css/js → **обязательно** подними `CACHE` в `sw.js` (`georgia-vN`→`vN+1`) и `APP_VERSION` в `js/settings.js`, иначе кэш отдаст старое. Новый файл — ещё и в список `ASSETS` в `sw.js`.
+- Правишь css/js → подними номер в ТРЁХ местах, они должны совпадать: `VER` в `sw.js`, `?v=N` у всех `<link>/<script>` в `index.html`, `APP_VERSION` в `js/settings.js`. Новый файл — ещё и в список `VERSIONED` в `sw.js`. HTML грузится network-first, css/js — SWR с `?v=N`: залипнуть на старой версии больше нельзя (сборка 21 залипла именно так).
 - Проверка без браузера: `node --check js/*.js` + прогон настоящего `index.html` в **jsdom** (`npm i jsdom` в скретчпаде, не в репо; скрипты подключать реальными `<script>`, не через `eval` — иначе top-level `const` из `data.js` не виден). **Headless Chrome тут зависает — не использовать.**
 - Деплой: `git add -A && git commit && git -c credential.helper='!gh auth git-credential' push origin main`. Pages пересобирается ~1 мин. Проверка live: `curl .../js/settings.js | grep сборка`.
 - Архитектура и конвенции — в `README.md`.
